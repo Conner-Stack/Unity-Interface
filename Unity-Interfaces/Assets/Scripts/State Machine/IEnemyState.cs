@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IEnemyState 
 {
-    void Update();
+    void UpdateState();
 
     void OnTriggerEnter(Collider other);
 

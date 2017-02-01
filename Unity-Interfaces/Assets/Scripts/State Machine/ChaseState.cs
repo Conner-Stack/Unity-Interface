@@ -27,8 +27,8 @@ public class ChaseState : IEnemyState
         throw new NotImplementedException();
     }
 
-    public void Update()
+  public void UpdateState()
     {
-        throw new NotImplementedException();
+
     }
 }

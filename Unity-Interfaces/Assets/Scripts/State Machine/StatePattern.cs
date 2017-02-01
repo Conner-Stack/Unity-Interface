@@ -25,7 +25,14 @@ public class StatePattern : MonoBehaviour {
     public PatrolState patrolState;
     [HideInInspector]
     public NavMeshAgent navMeshAgent;
+    private void Awake()
+    {
+        chaseState = new ChaseState(this);
+        alertState = new AlertState(this);
+        patrolState = new PatrolState(this);
 
+        navMeshAgent = GetComponent<NavMeshAgent>();
+    }
 
 
 
@@ -33,11 +40,15 @@ public class StatePattern : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        currentState = patrolState;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        currentState.UpdateState();
 	}
+    private void OnTriggerEnter(Collider other)
+    {
+        currentState.OnTriggerEnter(other);
+    }
 }
