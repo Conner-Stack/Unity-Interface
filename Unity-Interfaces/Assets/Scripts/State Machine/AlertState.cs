@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class AlertState : IEnemyState {
     private readonly StatePatternEnemy enemy;
-    private float searchTime;
+    private float searchTimer;
 
     public AlertState(StatePatternEnemy statePatternEnemy)
     {
@@ -25,6 +25,7 @@ public class AlertState : IEnemyState {
     public void ToChaseState()
     {
         enemy.currentState = enemy.chaseState;
+        searchTimer = 0f;
     }
 
     public void ToPatrolState()
@@ -35,18 +36,26 @@ public class AlertState : IEnemyState {
     public void UpdateState()
     {
         Look();
+        Search();
     }
 
     private void Look()
     {
         RaycastHit hit;
-        if (Physics.Raycast(EnemyAttack.eyes.transform.position, enemy.eyes.transform.forward, out hit, enemy.sightRange) && hit.collider.CompareTag("Player");
-        enemy.chaseTarget = hit.transform;
+        if (Physics.Raycast(
+            EnemyAttack.eyes.transform.position,
+            enemy.eyes.transform.forward, out hit,
+            enemy.sightRange) && hit.collider.CompareTag("Player"));
+        enemy.chaseTarget _ = hit.transform;
         ToChaseState();
     }
     private void Search()
     {
         enemy.meshRendererFlag.material.color = Color.yellow;
         enemy.navMeshAgent.Stop();
+        enemy.transform.Rotate(0, enemy.searchingTurnSpeed * Time.deltaTime, 0);
+        searchTimer += Time.deltaTime;
+        if (searchTimer >= enemy.searchingDuration)
+            ToPatrolState();
     }
 }
